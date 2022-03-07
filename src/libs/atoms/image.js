@@ -31,7 +31,7 @@ class Image extends PureComponent {
 
 	render() {
 		const props = this.props;
-
+		const { ...rest } = this.props;
 		return (
 			<StaticQuery
 				query={graphql`
@@ -70,6 +70,7 @@ class Image extends PureComponent {
 							fluid={fluid}
 							fadeIn={props.onload ? false : true}
 							onLoad={props.onload ? props.onload : null}
+							{...rest}
 						/>
 					);
 				}}

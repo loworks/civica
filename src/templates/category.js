@@ -18,58 +18,10 @@ export class Category extends PureComponent {
 		Libs.Common.Config.excuteTransition();
 	}
 	render() {
-		const { data, pageContext } = this.props;
-		const posts = data.allWordpressPost.edges;
+		const { data } = this.props;
 
-		const currentSlug = pageContext.slug;
-
-		this.itemNum = posts ? posts.length : 0;
-
-		return (
-			<>
-				<Libs.Common.SEO
-					title={posts.name}
-					link={posts.slug}
-					description={"posts.description.description"}
-				/>
-
-				<section
-					css={this.contCss}
-					className={"project-container init-animat-cont category"}
-					data-current={posts.slug}
-					data-currentname={posts.name}
-					data-type={"category"}
-					data-categoryslug={currentSlug}
-					data-categoryname={posts.name}
-				>
-					<Organisms.CategoryPage
-						type={"category"}
-						items={posts}
-						slug={currentSlug}
-					/>
-				</section>
-			</>
-		);
+		return <></>;
 	}
 }
 
 export default Category;
-export const pageQuery = graphql`
-	query categoryQuery($slug: String!) {
-		allWordpressPost(
-			filter: { categories: { elemMatch: { slug: { eq: $slug } } } }
-		) {
-			edges {
-				node {
-					slug
-					title
-
-					categories {
-						name
-						slug
-					}
-				}
-			}
-		}
-	}
-`;

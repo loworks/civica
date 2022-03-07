@@ -48,7 +48,7 @@ const getCurrentScrollState = (scrollX, scrollY, container) => {
 		Common.Func.getMarginForEnterFrame() - Common.Config.headerDefaultHeight;
 	const headerH = Common.Config.headerDefaultHeight; //this._scrollPoint;
 	const cont = container;
-	console.log("getCurrentScrollState -- ", scrollTop, margin, headerH);
+
 	const contClassList = cont.classList;
 	if (scrollTop <= margin) {
 		if (contClassList.contains("on-scroll")) {

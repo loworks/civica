@@ -1,19 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { css } from "@emotion/react";
 import ScrollEase from "libs/ScrollEase";
 import * as Libs from "libs";
 import * as Common from "../../common";
+import { OverlayOpen } from "../../libs/redux/action";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HeaderLogo from "../../components/modules/HeaderLogo";
 import * as Atoms from "../atoms";
+import * as Modules from "../modules";
 import Img from "gatsby-image";
-
+import { Power3, TweenMax, ScrollToPlugin } from "gsap/all";
 export default (props) => {
 	const { data, className, ...rest } = props;
+	const dispatch = useDispatch();
 
-	const outroRef = useRef();
-	const outroContentRef = useRef();
 	const container = useRef();
 	const logo = useRef();
 	const heroImg = useRef();
@@ -23,31 +25,41 @@ export default (props) => {
 		const topTl = gsap.timeline({
 			scrollTrigger: {
 				trigger: logo.current,
-				start: "top 30px",
-				endTrigger: "footer",
-				end: "-100px top",
+				start: "top-=25 0",
+				endTrigger: ".form-cont",
+				end: "-60px top",
 				//markers: true,
 
 				pin: true,
 				pinSpacing: false,
 				toggleClass: {
 					targets: "body",
-					className: "logo-small",
 				},
 			},
 		});
+		ScrollTrigger.create({
+			trigger: ".never-settle-cont",
+			start: "top-=180 0",
+			endTrigger: ".form-cont",
+			end: "-60px top",
+			toggleClass: {
+				targets: "body",
+				className: "logo-small",
+			},
+		});
+
 		gsap.fromTo(
 			".hero-img",
 			{
 				opacity: 1,
 				scale: 1.5,
-				transformOrigin: "center",
+				transformOrigin: "center bottom",
 			},
 			{
 				opacity: 1,
 				scale: 1,
 				ease: "Power4.out",
-				transformOrigin: "center",
+				transformOrigin: "center bottom",
 				scrollTrigger: {
 					scroller: window.scroller,
 					trigger: ".hero-img",
@@ -57,34 +69,20 @@ export default (props) => {
 				},
 			}
 		);
-		/*
-		topTl.fromTo(
-			logo.current,
-			{
-				opacity: 1,
-				scale: 1,
-				transformOrigin: "left",
-			},
-			{
-				opacity: 1,
-				scale: 0.4,
-				ease: "Power4.out",
-				transformOrigin: "left",
-			}
-		);*/
+
 		ScrollTrigger.create({
 			trigger: ".header-bg",
 			start: "top 0",
-			endTrigger: "footer",
-			end: "-100px top",
+			endTrigger: ".form-cont",
+			end: "-60px top",
 			pin: true,
 			pinSpacing: false,
 		});
 		ScrollTrigger.create({
 			trigger: ".button-cont",
 			start: "top 0",
-			endTrigger: "footer",
-			end: "-100px top",
+			endTrigger: ".form-cont",
+			end: "-60px top",
 			pin: true,
 			pinSpacing: false,
 			toggleClass: {
@@ -92,135 +90,198 @@ export default (props) => {
 				className: "button-small",
 			},
 		});
+		ScrollTrigger.create({
+			trigger: ".form-cont",
+			start: "top bottom",
+
+			toggleClass: {
+				targets: "body",
+				className: "isform",
+			},
+		});
 	}, []);
 
 	//--------------------------------------
 	//  CSS
 	//--------------------------------------
-	const style = () => css`
-		.feature-cont {
-			display: grid;
-			--grid-gap: 2rem;
-			--grid-margin: 4rem;
-			grid-template-columns: repeat(6, 1fr) 100px repeat(6, 1fr);
-			align-items: end;
-		}
+	const style = () => {
+		const percent = !logo.current ? 0.2 : 130 / logo.current.clientWidth;
 
-		.left-cont {
-			grid-column: 1 / span 6;
-			padding: 0 30px 120px 40px;
-			z-index: 2;
-			.civica-logo {
-				transition: all 0.7s cubic-bezier(0.71, 0.01, 0.45, 1.01);
-				.logo-small &,
-				.isfooter & {
-					transform: scale(0.3);
-					transform-origin: left top;
+		return css`
+			.feature-cont {
+				display: flex;
+				justify-content: space-between;
+				align-items: top;
+			}
+
+			.left-cont {
+				z-index: 2;
+				width: calc(100vw - 100vh * 0.6);
+				position: relative;
+				min-width: 50vw;
+				svg {
+					width: auto;
 				}
-			}
-			svg {
-				width: auto;
-			}
-			.logo-cont {
-				margin-bottom: 50px;
-			}
+				.logo-cont {
+					margin: 25px 0 50px 25px;
 
-			.never-settle-cont {
-				margin-bottom: 80px;
-				h2 {
-					width: 50%;
-					margin-bottom: 20px;
+					width: 95%;
+					.civica-logo {
+						transition: all 0.7s cubic-bezier(0.71, 0.01, 0.45, 1.01);
+						transform-origin: left top;
+						.logo-small &,
+						.isform & {
+							margin-top: -5px !important;
+							transform: scale(${percent});
+						}
+					}
 				}
-			}
-		}
 
-		.bg-cont {
-			grid-column: 7 / span 1;
-			background-color: ${Common.Config.keyColor2};
-			height: 100vh;
-			display: grid;
-			align-items: end;
-			justify-content: right;
-			z-index: 10;
-			.pin-spacer {
-				width: auto !important;
-			}
-			.button-cont {
-				width: auto !important;
-				.label {
-					transition: all 0.7s cubic-bezier(0.71, 0.01, 0.45, 1.01);
-					.button-small &,
-					.isfooter & {
-						transform: scale(0.6);
-						transform-origin: right center;
+				.never-settle-cont {
+					position: absolute;
+					top: 50%;
+					margin-left: 25px;
+					transform: translateY(-50%);
+					h2 {
+						width: 25vw;
+						max-width: 375px;
+						margin-bottom: 20px;
+					}
+				}
+
+				.button-cont {
+					position: absolute;
+					bottom: 25px;
+					padding-right: 25px;
+					width: 100%;
+					text-align: right;
+
+					.label {
+						transition: all 0.7s cubic-bezier(0.71, 0.01, 0.45, 1.01);
+						.button-small &,
+						.isform & {
+							transform: scale(0.6);
+							transform-origin: right center;
+						}
 					}
 				}
 			}
-			.icon {
-				height: 100px;
-				width: 100%;
-				background-color: ${Common.Config.keyColor};
-			}
-		}
 
-		.img-grid {
-			grid-column: 8 / span 6;
-			overflow: hidden;
-			height: 100vh;
-			z-index: 10;
-			.hero-img {
-				width: 100%;
-				height: 100%;
+			.img-area {
+				overflow: hidden;
+				height: 100vh;
+				z-index: 10;
+				width: calc(100vh * 0.6);
+				max-width: 50vw;
+				min-width: 35vw;
+				.hero-img {
+					width: 100%;
+					height: 100%;
+				}
 			}
-		}
-		.sentence-grid {
-			padding: 200px 40px 200px 40px;
-			position: relative;
-			.quate01 {
+			.sentence-grid {
+				padding: 180px 40px 180px 40px;
+				position: relative;
+				.quate01 {
+					width: 12vw;
+				}
+				.sentence-content {
+					width: 62vw;
+					margin: 160px auto 80px auto;
+					${Libs.Common.Func.getPcSpVwValue("margin-top", 50, true)}
+					${Libs.Common.Func.getPcSpVwValue(
+						"margin-bottom",
+						30,
+						true
+					)}
+					.unknown {
+					}
+					.header-know-your {
+					}
+					.sentence-p {
+						margin-top: 60px;
+					}
+				}
+				.quate02-cont {
+					text-align: right;
+				}
+				.quate02 {
+					transform-origin: center center;
+					width: 12vw;
+
+					transform: rotate(180deg);
+				}
+			}
+			.form-cont {
+				background-color: ${Common.Config.keyColor2};
+				padding-top: 150px;
+				.gatsby-image-wrapper {
+					margin: 0 auto;
+					width: 850px;
+					max-width: 80vw;
+				}
+			}
+
+			.header-bg {
 				position: absolute;
-				right: 40px;
-				width: 12vw;
-
-				transform: rotate(180deg);
+				z-index: 1;
+				background-color: #fff;
+				width: 100vw;
+				height: 60px;
 			}
-			.sentence-content {
-				width: 62vw;
-				margin: 180px auto 80px auto;
-				.unknown {
-				}
-				.header-know-your {
-				}
-				.sentence-p {
-					margin-top: 60px;
+			.button-cont2 {
+				margin-top: 30px;
+				text-align: center;
+				padding-bottom: 5px;
+				button {
+					background: none;
+					border: 1px solid #000;
+					cursor: pointer;
+					padding: 12px 25px 10px 25px;
 				}
 			}
-
-			.quate02 {
-				grid-column: 1 / span 2;
-				transform-origin: center;
-				width: 12vw;
-				text-align: right;
+			.stripe-img {
 			}
-		}
-		.animation-test > * {
-			margin: 100px 0;
-			width: 300px;
-			background-color: #fff;
-		}
-
-		.header-bg {
-			position: absolute;
-			z-index: 1;
-			background-color: #fff;
-			width: 100vw;
-			height: 100px;
-		}
-	`;
+		`;
+	};
 
 	//--------------------------------------
 	//  Data
 	//--------------------------------------
-
+	const toThankyou = () => {
+		dispatch(OverlayOpen({ element: Modules.Thankyou, props: { ...rest } }));
+	};
+	const scrollToForm = () => {
+		const scrollbar = window.Scrollbar;
+		//scrollbar.scrollTo(0, 1000, 3);
+		const target = document.querySelector(".form-cont");
+		console.log(
+			"top ---",
+			target.getBoundingClientRect().top,
+			scrollbar.scrollTop
+		);
+		/*var top =
+			document
+				.getElementsByClassName("body-container")[0]
+				.children[e.currentTarget.id].getBoundingClientRect().top +
+			window.pageYOffset;*/
+		scrollbar.scrollTo(
+			0,
+			scrollbar.scrollTop + target.getBoundingClientRect().top,
+			600,
+			{
+				callback: () => console.log("done!"),
+			}
+		);
+		const plugins = [ScrollToPlugin];
+		/*gsap.to(".scroll-content", 1, {
+			y: 0,
+			onComplete: function() {
+				console.log("onComplete -- ", scrollbar);
+				scrollbar.setPosition(0, 0);
+			},
+		});*/
+	};
 	//--------------------------------------
 	//  Output
 	//--------------------------------------
@@ -236,8 +297,14 @@ export default (props) => {
 				data-type={"page"}
 			>
 				<div className="header-bg"></div>
+
 				<div className="feature-cont">
 					<div className="left-cont">
+						<div className="logo-cont" ref={logo}>
+							<h1 className="civica-logo">
+								<HeaderLogo />
+							</h1>
+						</div>
 						<div className="never-settle-cont">
 							<h2>
 								<Atoms.NeverSettle></Atoms.NeverSettle>
@@ -245,8 +312,8 @@ export default (props) => {
 							<Libs.Atoms.P
 								styles={{
 									fontPc: {
-										fontSize: 18,
-										lineHeight: 26,
+										fontSize: 24,
+										lineHeight: 32,
 										fontFace: "sansserif",
 									},
 								}}
@@ -256,16 +323,21 @@ export default (props) => {
 								Previewing Fall 2022
 							</Libs.Atoms.P>
 						</div>
-						<div className="logo-cont" ref={logo}>
-							<h1 className="civica-logo">
-								<HeaderLogo />
-							</h1>
+						<div
+							className="button-cont"
+							onClick={() => {
+								scrollToForm();
+							}}
+						>
+							<Atoms.ButtonArrow>
+								Register For
+								<br />
+								Preview Opportunity{" "}
+							</Atoms.ButtonArrow>
 						</div>
 					</div>
-					<div className="bg-cont">
-						<Atoms.ButtonArrow className="button-cont" />
-					</div>
-					<div className="img-grid">
+
+					<div className="img-area">
 						<Img
 							className="hero-img"
 							imgClassName={"photo"}
@@ -277,6 +349,17 @@ export default (props) => {
 				<div className="sentence-grid">
 					<Atoms.IconQuate className={"quate01"} />
 					<div class="sentence-content">
+						{/*<Libs.Atoms.H2
+							styles={{
+								fontPc: {
+									fontSize: 42,
+									lineHeight: 60,
+									fontFace: "sansserif",
+								},
+							}}
+						>
+							Know your limits but never accept them
+						</Libs.Atoms.H2>*/}
 						<Atoms.HeaderKnowYour className={"header-know-your"} />
 						<Libs.Atoms.P
 							className={"unknown"}
@@ -300,17 +383,45 @@ export default (props) => {
 								},
 							}}
 						>
-							A bold addition to the Seattle skyline, CIVICA is a brand new
-							57-story residential building in Downtown Seattle. In this tower
-							of refined design, exceptional finishes and 360-degree views of
-							sky, mountain, and water. Pioneering spirits have the inspiration
-							and infrastructure to create refreshing connections. Indulge in
-							elegantly conceived and functional amenity spaces built around
-							your lifestyle, including an indoor pool, multiple relaxation
-							lounges, and a resident fitness center—just to name a few.
+							A bold addition to the Downtown Seattle skyline, CIVICA is a
+							57-story tower of refined, trailblazing design. With exceptional
+							finishes and 360-degree views of sky, mountain and water, the
+							residences beckon pioneering spirits to create home on your own
+							terms. Built around your lifestyle, the elegantly conceived and
+							functional amenity spaces—complete with an indoor pool, multiple
+							relaxation lounges, and a resident fitness center, just to name a
+							few—are made for forging fresh connections, too. Stake your claim
+							to better.
 						</Libs.Atoms.P>
 					</div>
-					<Atoms.IconQuate className={"quate02"} />
+					<div class="quate02-cont">
+						<Atoms.IconQuate className={"quate02"} />
+					</div>
+				</div>
+				<div className="stripe-img">
+					<Libs.Atoms.Image src={"stripe.jpg"} />
+				</div>
+				<div id="form" className="form-cont">
+					<Libs.Atoms.Image src={"form.jpg"} />
+					<div className="button-cont2">
+						<button
+							onClick={() => {
+								toThankyou();
+							}}
+						>
+							<Libs.Atoms.P
+								styles={{
+									fontPc: {
+										fontSize: 32,
+										lineHeight: 32,
+										fontFace: "sansserif",
+									},
+								}}
+							>
+								Submit
+							</Libs.Atoms.P>
+						</button>
+					</div>
 				</div>
 			</section>
 		</>

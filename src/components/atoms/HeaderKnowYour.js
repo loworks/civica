@@ -13,7 +13,7 @@ export default (props) => {
 		<svg
 			css={style}
 			{...rest}
-			viewBox="0 0 214 14"
+			viewBox="0 0 800 42"
 			preserveAspectRatio="xMinYMin meet"
 		>
 			<use xlinkHref="#header-know-your" x="0" y="0" />

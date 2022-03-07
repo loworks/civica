@@ -53,6 +53,15 @@ export const pageQuery = graphql`
 						}
 					}
 				}
+				form {
+					localFile {
+						childImageSharp {
+							fluid(maxWidth: 2000, quality: 100) {
+								src
+							}
+						}
+					}
+				}
 			}
 		}
 	}

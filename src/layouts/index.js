@@ -85,6 +85,7 @@ class Layout extends PureComponent {
 				overscroll: { ...overscrollOptions },
 			},
 		});
+		window.Scrollbar = scrollbar;
 		ScrollTrigger.scrollerProxy(this.scrollerRef.current, {
 			scrollTop(value) {
 				if (arguments.length) {
@@ -105,9 +106,10 @@ class Layout extends PureComponent {
 			//document.body.scrollTop = document.documentElement.scrollTop = 0
 		}
 		this.scrollContent = document.querySelector(".scroll-content");
-		console.log("me.container -- ", document.querySelector(".scroll-content"));
+		console.log("me.container -- ", window.Scrollbar);
 		this.enterframe.setContainer(document.querySelector(".scroll-content"));
 		this.enterframe.start();
+
 		return () => {
 			if (scrollbar) scrollbar.destroy();
 			scrollbar.removeListener(ScrollTrigger.update);
@@ -132,14 +134,17 @@ class Layout extends PureComponent {
 									this.enterframe = el;
 								}}
 							></EnterFrame>
-
+							<Modules.Intro />
 							<div className={"scrollcont"} ref={this.scrollerRef}>
 								<Header />
 								{children}
 								<Footer langs={this.langsMenu} />
 							</div>
 							<Modules.Loader />
-							<Libs.Atoms.Overlay />
+							<Libs.Atoms.Overlay
+								opacity={1}
+								bgcolor={Common.Config.keyColor2}
+							/>
 						</Container>
 					</Provider>
 				</ContextProvider>

@@ -23,6 +23,8 @@ class OverLay extends Component {
 	};
 
 	bgCss = () => {
+		let { bgcolor, opacity } = this.props;
+
 		return css`
 			width: 100%;
 			height: 100%;
@@ -31,8 +33,8 @@ class OverLay extends Component {
 			z-index: 0;
 			top: 0px;
 			left: 0px;
-			background-color: #000;
-			opacity: 0.65;
+			background-color: ${bgcolor ? bgcolor : "#000"};
+			opacity: ${opacity ? opacity : 0.65};
 		`;
 	};
 	closeHandler = () => {
@@ -44,6 +46,7 @@ class OverLay extends Component {
 	};
 	constructor(props) {
 		super(props);
+
 		this.content = null;
 		this.container = React.createRef();
 	}

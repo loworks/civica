@@ -18,6 +18,10 @@ export default function HTML(props) {
 		.page-load & {
 			opacity: 1 !important;
 		}
+		.loader {
+			position: absolute;
+			z-index: 1;
+		}
 		.bg {
 			background-color: ${Common.Config.bgColor};
 			width: 100%;
@@ -58,7 +62,7 @@ export default function HTML(props) {
 				</noscript>
 				<Atoms.Svg />
 				<div css={initialLoaderCss} className="initioal-loader">
-					<Modules.InitialLoader />
+					<Modules.InitialLoader className="loader" />
 					<div className="bg" />
 				</div>
 			</body>

@@ -5,7 +5,6 @@ import Navigation from "./Navigation";
 import Loader from "./Loader";
 import InitialLoader from "./InitialLoader";
 import SnsList from "./SnsList";
-
 import SliderIndicators from "./SliderIndicators";
 import ImageList from "./ImageList";
 import LayoutCard01 from "./LayoutCard01";
@@ -17,19 +16,15 @@ import LayoutCard06 from "./LayoutCard06";
 import LayoutSpreadCard01 from "./LayoutSpreadCard01";
 import Breadcrumb from "./Breadcrumb";
 import ShareList from "./ShareList";
-
-import RecentPost from "./RecentPost";
 import GlobalNavigation from "./GlobalNavigation";
-import ProductList from "./ProductList";
 import ProductListCont from "./ProductListCont";
-import InstaList from "./InstaList";
 import ProductsCategory from "./ProductsCategory";
-
 import StoryElement from "./StoryElement";
 import LinkCategory from "./LinkCategory";
-
 import Help from "./Help";
-import TagFilter from "./TagFilter";
+import Intro from "./Intro";
+import Thankyou from "./Thankyou";
+
 export {
 	HamburgerMenu,
 	HeaderLogo,
@@ -49,14 +44,12 @@ export {
 	LayoutSpreadCard01,
 	Breadcrumb,
 	ShareList,
-	RecentPost,
-	ProductList,
 	ProductListCont,
-	InstaList,
 	ProductsCategory,
 	StoryElement,
 	LinkCategory,
 	GlobalNavigation,
 	Help,
-	TagFilter,
+	Intro,
+	Thankyou,
 };

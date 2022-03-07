@@ -12,7 +12,7 @@ export const siteMargin = 0;
 export const keyColor = "#e0a525";
 export const keyColor2 = "#d5d1cb";
 export const sansserifFont = "regularFont";
-export const boldFont = "nbkbold";
+export const boldFont = "boldFont";
 export const serifFont = "nbkSerif";
 
 export const languages = { langs: ["ja", "en"], defaultLangKey: "ja" };

@@ -5,16 +5,16 @@ import * as Atoms from "../atoms";
 import * as Common from "../../common";
 import * as Libs from "libs";
 export default (props) => {
-	const { ...rest } = props;
+	const { children, ...rest } = props;
 	const contCss = () => css`
-		display: flex;
+		display: inline-flex;
 		align-items: center;
 		background: none;
 	`;
 	const iconCss = () => css`
-		width: 100px;
-		height: 100px;
-		background-color: ${Common.Config.keyColor};
+		width: 60px;
+		height: 60px;
+
 		position: relative;
 		.icon-arrow {
 			position: relative;
@@ -33,16 +33,14 @@ export default (props) => {
 				className={"label"}
 				styles={{
 					fontPc: {
-						fontSize: 28,
-						lineHeight: 30,
+						fontSize: 24,
+						lineHeight: 32,
 						fontFace: "sansserif",
 						textAlign: "right",
 					},
 				}}
 			>
-				Register For
-				<br />
-				Preview Opportunity
+				{children}
 			</Libs.Atoms.P>
 			<div css={iconCss}>
 				<Atoms.IconArrow></Atoms.IconArrow>

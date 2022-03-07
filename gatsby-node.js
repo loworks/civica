@@ -71,18 +71,7 @@ exports.createPages = ({ actions, graphql }) => {
 				// We need a common ID to cycle between locales.
 
 				const slug = edge.node.slug;
-				if (slug === "index") {
-					createPage({
-						path: `/`,
-						component: slash(pageTemplate),
-						context: {
-							id: edge.node.id,
-						},
-					});
-				} else {
-					// Gatsby uses Redux to manage its internal state.
-					// Plugins and sites can use functions like "createPage"
-					// to interact with Gatsby.
+				if (slug !== "index") {
 					createPage({
 						// Each page is required to have a `path` as well
 						// as a template component. The `context` is

@@ -11,13 +11,10 @@ import { EnterFrameHandler } from "../action";
 class EnterFrame extends Component {
 	constructor(props) {
 		super(props);
-		const { container, ...rest } = this.props;
+		const { ...rest } = this.props;
 		this._framerate = 30;
 		this.init(this.props.dispatch);
-
-		this.container = container
-			? container
-			: document.getElementsByTagName("html")[0];
+		this.container = null;
 		this.fps = 30.0;
 		this.frameLength = 30;
 		this.frame = 0;

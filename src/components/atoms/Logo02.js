@@ -11,10 +11,10 @@ class Logo02 extends Component {
 	}
 }
 const style = () => css`
-	height: 16px;
+	height: 19px;
 	fill: #000;
 	${Style.Mq.sp} {
-		height: 16px;
+		height: 20px;
 	}
 `;
 export default Logo02;
